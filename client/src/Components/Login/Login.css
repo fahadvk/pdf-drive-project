@@ -1,0 +1,71 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: transparent;
+    border: none;
+    text-decoration: none;
+    font-family: 'Roboto';
+    user-select: none;
+    list-style: none;
+    position: relative;
+  }
+
+
+  .button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.12);
+    background-color: #F2F8FF;
+    text-transform: capitalize;
+    cursor: pointer;
+  }
+  .button:hover, .button:focus {
+    transition: 0.15s ease-in-out;
+  }
+  .login-container {
+    width: 500px;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin: 0 auto;
+    background-color: white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.12);
+    overflow: hidden;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-top: 10rem;
+  }
+  .login-container .title {
+    text-transform: capitalize;
+    font-size: 1.6em;
+    font-weight: 300;
+    padding: 60px 0;
+    padding-bottom: 10px;
+  }
+  .login-container .login-button {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    width: 60%;
+    padding: 20px 15px;
+    background-color: #007AFF;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 400;
+    margin: 40px 0;
+  }
+  .login-container .login-button:hover, .login-container .login-button:focus {
+    box-shadow: 0px 3px 20px 3px rgba(0, 122, 255, 0.3);
+    background-color: #007AFF;
+  }
+
+
+
+  
