@@ -2,43 +2,50 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 import { Input, Paper } from '@mantine/core';
-import { RegisterApi } from '../../Apis/authentication';
+import { toast } from 'react-toastify';
+import Cookie from 'universal-cookie';
+import { RegisterApi } from '../../Apis/UserApis';
+import Toast from '../../Shared/Toast';
 
 function Signup() {
   const Navigate = useNavigate();
-
+  const cookie = new Cookie();
   const validationSchema = Yup.object({
-    name: Yup.string()
+    Name: Yup.string()
       .max(15, 'Must be 15 characters or less')
       .required('Required'),
-    mobile: Yup.number()
+    Mobile: Yup.number()
       .min(10, 'Must be  minimum 10 characters ')
       .required('Required'),
     email: Yup.string().email('Invalid email address').required('Required'),
-    password: Yup.string()
+    Password: Yup.string()
       .min(6, 'Must be  minimum 6 characters ')
       .required('Required'),
     confirmPassword: Yup.string()
       .min(6, 'Must be  minimum 6 characters ')
       .required('Required')
-      .oneOf([Yup.ref('password')], 'Passwords must be same'),
+      .oneOf([Yup.ref('Password')], 'Passwords must be same'),
   });
   const formik = useFormik({
     initialValues: {
-      name: '',
+      Name: '',
       email: '',
-      mobile: '',
-      password: '',
+      Mobile: '',
+      Password: '',
       confirmPassword: '',
     },
     validationSchema,
     onSubmit: async () => {
       const body = formik.values;
-      await RegisterApi(body);
+      try {
+        const { data } = await RegisterApi(body);
+        data.token && cookie.set('token', data.token);
+        Navigate('/');
+      } catch (error) {
+        error.response.data && toast.error(error.response.data);
+      }
     },
   });
-
-  // }
   return (
     <div className='bg-gradient-to-r from-navy via-blue to-login h-screen flex flex-col justify-center '>
       <Paper
@@ -49,6 +56,7 @@ function Signup() {
         sx={{ maxWidth: '500px' }}
         withBorder
       >
+        <Toast />
         <div className='max-w-[450px] w-3/4  mx-auto bg-white rounded-lg'>
           <h2 className='text-blue text-center text-3xl font-bold '>
             Register
@@ -61,15 +69,15 @@ function Signup() {
                 type='text'
                 placeholder='FullName'
                 id='name'
-                value={formik.values.name}
-                name='name'
+                value={formik.values.Name}
+                name='Name'
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
               />
               <label className='text-red-600' htmlFor='name'>
-                {formik.errors.name &&
-                  formik.touched.name &&
-                  formik.errors.name}
+                {formik.errors.Name &&
+                  formik.touched.Name &&
+                  formik.errors.Name}
               </label>
             </div>
             <div className='flex flex-col text-gray-400  mt-3'>
@@ -96,16 +104,16 @@ function Signup() {
                 type='tel'
                 placeholder='Mobile'
                 id='mobile'
-                name='mobile'
+                name='Mobile'
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                value={formik.values.mobile}
+                value={formik.values.Mobile}
                 className='rounded-lg bg-gray-700  focus:border-blue-500 focus:bg-gray-800 focus:outline-none'
               />
-              <label className='text-red-600' htmlFor='mobile'>
-                {formik.errors.mobile &&
-                  formik.touched.mobile &&
-                  formik.errors.mobile}
+              <label className='text-red-600' htmlFor='Mobile'>
+                {formik.errors.Mobile &&
+                  formik.touched.Mobile &&
+                  formik.errors.Mobile}
               </label>
             </div>
             <div className='flex flex-col text-gray-400  mt-3'>
@@ -114,16 +122,16 @@ function Signup() {
                 type='Password'
                 placeholder='Enter your Password'
                 id='password'
-                name='password'
+                name='Password'
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                value={formik.values.password}
+                value={formik.values.Password}
                 className='rounded-lg bg-gray-700  focus:border-blue-500 focus:bg-gray-800 focus:outline-none'
               />
               <label className='text-red-600' htmlFor='Password'>
-                {formik.errors.password &&
-                  formik.touched.password &&
-                  formik.errors.password}
+                {formik.errors.Password &&
+                  formik.touched.Password &&
+                  formik.errors.Password}
               </label>
             </div>
 
